@@ -63,11 +63,11 @@ ls -l ~/camara/test.jpg
 ```
 Si se genera el archivo test.jpg, la cámara está operativa.
 
-![Texto alternativo](3.png)
+![Texto alternativo](./Img/3.png)
 
 La imagen muestra un flujo en Node-RED donde un botón activa el comando rpicam-vid -t 0 -o video.h264, encargado de iniciar la grabación de video desde la cámara de la Raspberry Pi y almacenar el archivo en formato H.264. El estado “killed” indica que el proceso fue detenido, posiblemente por errores de configuración o permisos insuficientes.
 
-![Texto alternativo](2.png)
+![Texto alternativo](./Img/2.png)
 
 
 ## Instalación de dependencias necesarias
@@ -95,4 +95,7 @@ enlace:
 ## Flujo práctico de comunicacion 
 En la siguiente imagen se observan los principales componentes del montaje: la cámara, la Raspberry Pi 3, el entorno Node-RED y el módulo ESP32.
 
-![Texto alternativo](1.png)
+![Texto alternativo](./Img/1.png)
+
+## Conclusiones
+Este documento presenta un adelanto del proyecto de integración de cámara y Raspberry Pi mediante Node-RED, donde se comprobó la comunicación entre el hardware y la plataforma de automatización. Se logró habilitar la cámara y ejecutar el comando rpicam-vid -t 0 -o video.h264 desde un fluj, demostrando la capacidad del sistema para capturar video de forma remota. Este avance sienta las bases para futuras etapas orientadas a la transmisión y procesamiento de imágenes en proyectos de monitoreo y análisis para captar colores en la mezcladora.
