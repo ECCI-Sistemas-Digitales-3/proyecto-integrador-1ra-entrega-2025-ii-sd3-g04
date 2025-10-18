@@ -1,17 +1,98 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=21147858&assignment_repo_type=AssignmentRepo)
-# Proyecto integrador 1ra Entrega
-
+# DOCUMENTACIÓN DEL AVANCE DEL PROYECTO INTEGRADOR
 ## Integrantes
 
 
+## Objetivo
+El objetivo del avance del proyecto es configurar una Raspberry Pi como nodo publicador MQTT, capaz de capturar imágenes en tiempo real mediante una cámara (CSI o USB) y transmitirlas mediante el protocolo MQTT hacia un cliente Node-RED, donde se visualizarán y podrán procesarse para tareas de monitoreo, análisis o automatización.
 
-## Arquitectura propuesta
+Esta integración combina tecnologías de IoT (Internet of Things), procesamiento de imágenes y mensajería ligera, fortaleciendo la comprensión práctica de los conceptos de comunicación entre dispositivos inteligentes.
+
+## Herramientas
+
+| Elemento                        | Descripción                                           |
+|----------------------------------|-------------------------------------------------------|
+| Raspberry Pi 3                       | Nodo principal y publicador MQTT.                    |
+| Cámara REv 1.3                   | Captura de imágenes.                                 |
+| Fuente 5V / 3A                   | Alimentación estable de la Raspberry Pi 3.             |
+| MicroSD                         | Almacenamiento del sistema operativo.                |
+| Conexión WiFi o Ethernet         | Comunicación con el servidor MQTT y Node-RED.        |
+| PC con Node-RED                  | Cliente suscriptor y visualizador de datos.          |
+| Software                       | Raspbian OS, Mosquitto, Python3 y Node-RED.          |
 
 
+## Configuración inicial de la Raspberry Pi
+1. Conectar la Raspberry Pi a la fuente de alimentación y a la red (WiFi o cable Ethernet).
 
-## Periférico a trabajar
+2. Acceder al sistema operativo desde un terminal local o mediante SSH desde otro equipo:
+```
+ssh pi@192.168.7.217 (Esta direccion IP varia)
+```
+Ingresar la contraseña correspondiente al usuario pi o la establecida previamente.
 
 
-## Avances
+## Actualización del sistema
+Antes de comenzar la instalación, es recomendable realizar una limpieza y actualización completa del sistema operativo para garantizar estabilidad y evitar conflictos de dependencias:
+```
+sudo apt clean
+sudo apt autoremove -y
+sudo apt update -y
+sudo apt upgrade -y
+```
+Este procedimiento mantiene los repositorios actualizados, elimina paquetes innecesarios y prepara el sistema para las siguientes instalaciones.
 
-<!-- Subir en una carpeta src los códigos que tienen hasta el momento y esta sección agregar lo que consideren necesario referente a sus avances. -->
+## Habilitación de la cámara
+
+1. Abrir el panel de configuración de la Raspberry Pi:
+```
+sudo raspi-config
+```
+2. Habilitar también el acceso remoto SSH (si aún no está activo):
+**Interface Options → SSH → Enable**
+
+3. Guardar los cambios y reiniciar la Raspberry Pi para aplicar la configuración:
+```
+sudo reboot
+```
+4. Verificar funcionamiento de la cámara:
+```
+mkdir -p ~/camara
+libcamera-hello
+libcamera-jpeg -o ~/camara/test.jpg
+ls -l ~/camara/test.jpg
+```
+Si se genera el archivo test.jpg, la cámara está operativa.
+
+![Texto alternativo](3.png)
+
+La imagen muestra un flujo en Node-RED donde un botón activa el comando rpicam-vid -t 0 -o video.h264, encargado de iniciar la grabación de video desde la cámara de la Raspberry Pi y almacenar el archivo en formato H.264. El estado “killed” indica que el proceso fue detenido, posiblemente por errores de configuración o permisos insuficientes.
+
+![Texto alternativo](2.png)
+
+
+## Instalación de dependencias necesarias
+
+Una vez actualizado el sistema, se procede a instalar las herramientas básicas, las utilidades para la cámara.
+Los siguientes comandos deben ejecutarse en orden:
+```
+sudo apt update
+sudo apt install imagemagick -y
+sudo apt install python3-pip -y
+```
+**Descripción de cada instalación:**
+
+imagemagick: Permite manipular imágenes (redimensionar, convertir formato, etc.).
+
+python3-pip: Instala el gestor de paquetes Python, necesario para las siguientes librerías.
+
+## Verificación del broker MQTT
+Nos conectamos al laboratorio de mosquito, 
+enlace:
+
+[Instalación Mosquitto](https://github.com/ECCI-Sistemas-Digitales-3/lab05-mqtt-2025-ii-sd3-g04)
+
+
+## Flujo práctico de comunicacion 
+En la siguiente imagen se observan los principales componentes del montaje: la cámara, la Raspberry Pi 3, el entorno Node-RED y el módulo ESP32.
+
+![Texto alternativo](1.png)
